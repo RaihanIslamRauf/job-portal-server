@@ -9,7 +9,10 @@ const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -86,6 +89,9 @@ async function run() {
           .json({ message: "Email query parameter is required" });
       }
       const query = { applicant_email: email };
+      
+      console.log('cuk cuk cookies', req.cookies);
+
       const result = await jobApplicationCollection.find(query).toArray();
       // fokira way to aggregate data
       for (const application of result) {
